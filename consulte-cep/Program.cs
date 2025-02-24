@@ -1,7 +1,17 @@
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using consulte_cep.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    )
+);
 
+// Add services to the container.
 builder.Services.AddControllers();
 
 var app = builder.Build();
